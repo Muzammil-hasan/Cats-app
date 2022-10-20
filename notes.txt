@@ -1,0 +1,9 @@
+Things i want to optimize/change if more time is given :-
+1. I'm using two separates form for edits and create, I will use one according to state. 
+(note a big change but will improve performance)
+2. Make this website responsive.
+3. Better SEO with NextJs, since react-spectrum can not work with NextJs.
+4. Showing loading state while CRUD operations.
+5. Cat images upload functionality with names and other details.
+6. fetching and updating data using RestAPI instead of localStorage.
+
