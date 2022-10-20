@@ -10,9 +10,14 @@
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.22.0",
+    "@hookform/resolvers": "^2.9.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hot-toast": "^2.4.0"
+    "react-hook-form": "^7.38.0",
+    "react-hot-toast": "^2.4.0",
+    "react-use": "^17.4.0",
+    "react-zorm": "^0.6.1",
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
