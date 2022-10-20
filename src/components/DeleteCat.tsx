@@ -17,7 +17,12 @@ export default function DeleteCat({ isDisabled, selected }: Props) {
   };
 
   return (
-    <Button onPress={deleteCat} variant="negative" UNSAFE_className="!px-4" isDisabled={isDisabled}>
+    <Button
+      onPress={deleteCat}
+      variant="negative"
+      UNSAFE_className="!px-4"
+      isDisabled={isDisabled || cats.length <= 0}
+    >
       Delete
     </Button>
   );

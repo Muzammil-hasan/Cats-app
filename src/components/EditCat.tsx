@@ -27,7 +27,7 @@ export default function EditCat({ isDisabled, selected }: Props) {
       <Button
         variant="primary"
         UNSAFE_className="!px-4"
-        isDisabled={isDisabled}
+        isDisabled={isDisabled || cats.length <= 0}
         type="button"
         onPress={editCat}
       >
