@@ -1,15 +1,8 @@
-import {
-  Button,
-  Cell,
-  Column,
-  Flex,
-  Row,
-  TableBody,
-  TableHeader,
-  TableView,
-} from '@adobe/react-spectrum';
+import { Cell, Column, Flex, Row, TableBody, TableHeader, TableView } from '@adobe/react-spectrum';
 import { Fragment, Key, useState } from 'react';
-import { ICat } from '../types';
+import { useCatContext } from '../contexts/CatContext';
+import DeleteCat from './DeleteCat';
+import EditCat from './EditCat';
 
 let columns = [
   { name: 'Name', uid: 'name' },
@@ -18,8 +11,9 @@ let columns = [
   { name: 'Nature', uid: 'nature' },
 ];
 
-export default function CatsList({ list }: { list: ICat[] | [] }) {
+export default function CatsList() {
   let [selectedKeys, setSelectedKeys] = useState<'all' | Iterable<Key> | any>([]);
+  const [cats] = useCatContext();
 
   return (
     <Fragment>
@@ -29,13 +23,12 @@ export default function CatsList({ list }: { list: ICat[] | [] }) {
         onSelectionChange={setSelectedKeys}
         aria-label="Awesome cats list"
         marginTop={'size-500'}
-        height="size-5000"
       >
         <TableHeader columns={columns}>
           {(column) => <Column key={column.uid}>{column.name}</Column>}
         </TableHeader>
 
-        <TableBody items={list}>
+        <TableBody items={cats}>
           {(item: any) => (
             <Row>
               {(columnKey: any) => (
@@ -49,12 +42,14 @@ export default function CatsList({ list }: { list: ICat[] | [] }) {
       </TableView>
 
       <Flex justifyContent={'end'} marginTop={'size-200'} gap={'size-100'}>
-        <Button variant="primary" UNSAFE_className="!px-4" isDisabled={selectedKeys?.size <= 0}>
-          Edit
-        </Button>
-        <Button variant="negative" UNSAFE_className="!px-4" isDisabled={selectedKeys?.size <= 0}>
-          Delete
-        </Button>
+        <EditCat
+          isDisabled={selectedKeys.size ? selectedKeys.size === 0 : true}
+          selected={selectedKeys}
+        />
+        <DeleteCat
+          isDisabled={selectedKeys.size ? selectedKeys.size === 0 : true}
+          selected={selectedKeys}
+        />
       </Flex>
     </Fragment>
   );

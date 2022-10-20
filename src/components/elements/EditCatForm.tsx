@@ -1,17 +1,24 @@
 import { Button, ButtonGroup, Content, Item, Picker, TextField } from '@adobe/react-spectrum';
 import { Fragment } from 'react';
 import { useZorm } from 'react-zorm';
-import { v4 as uuidv4 } from 'uuid';
 import { useCatContext } from '../../contexts/CatContext';
 import AddCatSchema from '../../schema/AddCatSchema';
+import { ICat } from '../../types';
 
-export default function AddCatForm({ close }: { close: () => void }) {
+type Props = {
+  cat: ICat;
+  index: number;
+  close: () => void;
+};
+
+export default function EditCatForm({ close, cat, index }: Props) {
   const [cats, setCats] = useCatContext();
 
   const zo = useZorm('addCat', AddCatSchema, {
     onValidSubmit(e) {
       e.preventDefault();
-      setCats([...cats, { id: uuidv4(), ...e.data }]);
+      cats[index] = { id: cat.id, ...e.data };
+      setCats(cats);
       close();
     },
   });
@@ -22,6 +29,7 @@ export default function AddCatForm({ close }: { close: () => void }) {
         <form ref={zo.ref} className="w-full">
           <TextField
             isRequired
+            defaultValue={cat.name}
             name={zo.fields.name()}
             necessityIndicator="icon"
             UNSAFE_style={{ width: '100%' }}
@@ -32,6 +40,7 @@ export default function AddCatForm({ close }: { close: () => void }) {
           <TextField
             isRequired
             type="number"
+            defaultValue={cat.age}
             name={zo.fields.age()}
             necessityIndicator="icon"
             UNSAFE_style={{ width: '100%' }}
@@ -41,6 +50,7 @@ export default function AddCatForm({ close }: { close: () => void }) {
           />
           <TextField
             isRequired
+            defaultValue={cat.color}
             name={zo.fields.color()}
             necessityIndicator="icon"
             UNSAFE_style={{ width: '100%' }}
@@ -53,6 +63,7 @@ export default function AddCatForm({ close }: { close: () => void }) {
             name={zo.fields.nature()}
             necessityIndicator="icon"
             UNSAFE_style={{ width: '100%' }}
+            defaultSelectedKey={cat.nature}
             label="How is your cat's nature?"
             errorMessage={zo.errors.nature()?.message}
             validationState={zo.errors.nature()?.message ? 'invalid' : 'valid'}
@@ -66,7 +77,7 @@ export default function AddCatForm({ close }: { close: () => void }) {
               Cancel
             </Button>
             <Button variant="cta" type="submit" UNSAFE_className="text-blue-700">
-              Register
+              Update
             </Button>
           </ButtonGroup>
         </form>

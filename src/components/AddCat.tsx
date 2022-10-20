@@ -1,15 +1,7 @@
 import { Button, Dialog, DialogTrigger, Divider, Flex, Heading, Text } from '@adobe/react-spectrum';
-import { Dispatch, SetStateAction } from 'react';
-import { ICat } from '../types';
 import AddCatForm from './elements/AddCatForm';
 
-export default function AddCat({
-  setter,
-  list,
-}: {
-  setter: Dispatch<SetStateAction<ICat[] | undefined>>;
-  list: ICat[];
-}) {
+export default function AddCat() {
   return (
     <DialogTrigger>
       <Button variant="primary">Add New</Button>
@@ -21,7 +13,7 @@ export default function AddCat({
             </Flex>
           </Heading>
           <Divider />
-          <AddCatForm close={close} setter={setter} list={list} />
+          <AddCatForm close={close} />
         </Dialog>
       )}
     </DialogTrigger>
