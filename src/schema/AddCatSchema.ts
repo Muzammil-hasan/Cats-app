@@ -10,5 +10,5 @@ export default z.object({
       .max(20, { message: 'Age should be lower than 20' })
   ),
   color: z.string().min(3, { message: 'Please enter correct color name' }),
-  nature: z.enum(['depends', 'aggressive', 'cute'] as const),
+  nature: z.enum(['depends', 'aggressive', 'calm'] as const),
 });

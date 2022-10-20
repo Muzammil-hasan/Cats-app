@@ -1,17 +1,25 @@
 import { Button, ButtonGroup, Content, Item, Picker, TextField } from '@adobe/react-spectrum';
-import { Fragment } from 'react';
+import { Dispatch, Fragment, SetStateAction } from 'react';
 import { useZorm } from 'react-zorm';
 import AddCatSchema from '../../schema/AddCatSchema';
+import { ICat } from '../../types';
 
-export default function AddCatForm({ close }: { close: () => void }) {
+export default function AddCatForm({
+  close,
+  setter,
+  list,
+}: {
+  close: () => void;
+  setter: Dispatch<SetStateAction<ICat[] | undefined>>;
+  list: ICat[];
+}) {
   const zo = useZorm('addCat', AddCatSchema, {
     onValidSubmit(e) {
       e.preventDefault();
-      alert(JSON.stringify(e.data, null, 2));
+      setter([...list, { id: list.length + 1, ...e.data }]);
+      close();
     },
   });
-
-  console.log(zo.errors.nature()?.message);
 
   return (
     <Fragment>
@@ -49,13 +57,12 @@ export default function AddCatForm({ close }: { close: () => void }) {
             isRequired
             name={zo.fields.nature()}
             necessityIndicator="icon"
-            // defaultSelectedKey={'cute'}
             UNSAFE_style={{ width: '100%' }}
             label="How is your cat's nature?"
             errorMessage={zo.errors.nature()?.message}
             validationState={zo.errors.nature()?.message ? 'invalid' : 'valid'}
           >
-            <Item key="cute">Cute</Item>
+            <Item key="calm">Calm</Item>
             <Item key="aggressive">Aggressive</Item>
             <Item key="depends">Depends on her/his mood</Item>
           </Picker>

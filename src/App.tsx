@@ -1,37 +1,29 @@
-import { Cell, Column, Row, TableBody, TableHeader, TableView } from '@adobe/react-spectrum';
+import { Flex, Heading } from '@adobe/react-spectrum';
+import { useLocalStorage } from 'react-use';
+import AddCat from './components/AddCat';
+import CatsList from './components/CatsList';
 import Layout from './components/layout';
-
-let columns = [
-  { name: 'Name', uid: 'name' },
-  { name: 'Type', uid: 'type' },
-  { name: 'Date Modified', uid: 'date' },
-];
-
-let rows = [
-  { id: 1, name: 'Games', date: '6/7/2020', type: 'File folder' },
-  { id: 2, name: 'Program Files', date: '4/7/2021', type: 'File folder' },
-  { id: 3, name: 'bootmgr', date: '11/20/2010', type: 'System file' },
-  { id: 4, name: 'log.txt', date: '1/18/2016', type: 'Text Document' },
-];
+import { ICat } from './types';
 
 export default function App() {
+  const [cats, setCats] = useLocalStorage<ICat[]>('cats', [] as ICat[]);
+
   return (
     <Layout>
-      <section className="flex items-center justify-center mx-16 mt-10 h-96">
-        <div className="w-full h-full bg-white rounded-lg shadow-lg">
-          <TableView aria-label="Example table with dynamic content" maxWidth="size-6000">
-            <TableHeader columns={columns}>
-              {(column) => (
-                <Column key={column.uid} align={column.uid === 'date' ? 'end' : 'start'}>
-                  {column.name}
-                </Column>
-              )}
-            </TableHeader>
-            <TableBody items={rows}>
-              {(item: any) => <Row>{(columnKey: any) => <Cell>{item[columnKey]}</Cell>}</Row>}
-            </TableBody>
-          </TableView>
-        </div>
+      <section className="flex items-center justify-center mx-28 mt-10">
+        <Flex
+          direction={'column'}
+          justifyContent="space-between"
+          UNSAFE_className="px-10 py-6 w-full h-full rounded-lg shadow-lg"
+        >
+          <Flex justifyContent={'space-between'}>
+            <Heading level={6} UNSAFE_className="font-bold text-2xl">
+              List of Cats
+            </Heading>
+            <AddCat setter={setCats} list={cats || []} />
+          </Flex>
+          <CatsList list={cats || []} />
+        </Flex>
       </section>
     </Layout>
   );
