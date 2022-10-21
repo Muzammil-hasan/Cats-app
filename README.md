@@ -1,4 +1,4 @@
-This is a [vite](https://vitejs.dev/) project bootstrapped with typescript.
+This is a [Vite + ReactJs](https://vitejs.dev/) project with typescript.
 
 ## Getting Started
 
